@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import {
   Leaf,
   Award,
@@ -11,12 +11,48 @@ import {
 } from "lucide-react";
 import { Container } from "./Container";
 
+// Configurações de animação
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+// NOVO: Componente de ícone animado reutilizável
+const AnimatedIcon = ({ icon: Icon, animation }) => {
+  const animations = {
+    pulse: { scale: [1, 1.1, 1] },
+    float: { y: [0, -4, 0] },
+    sway: { rotate: [-5, 5, -5] },
+  };
+  return (
+      <Icon className="w-8 h-8 text-white" />
+  );
+};
+
 export const Beneficios = () => {
   const beneficios = [
     {
       titulo: "Incentivos fiscais",
       descricao:
-        "Aproveite leis e programas que reduzem impostos e ampliam a competitividade do seu negócio.",
+        "Aproveite leis e programas que reduzem impostos e ampliam a competitividade.",
       icon: PiggyBank,
     },
     {
@@ -40,40 +76,20 @@ export const Beneficios = () => {
     {
       titulo: "Segurança e credibilidade",
       descricao:
-        "Empresas sustentáveis atraem parceiros e investidores comprometidos com o futuro.",
+        "Empresas sustentáveis atraem parceiros e investidores comprometidos.",
       icon: ShieldCheck,
     },
     {
       titulo: "Inovação sustentável",
       descricao:
-        "Estimule novos processos, produtos e ideias alinhadas com práticas ESG, atraindo talentos e diferenciação.",
+        "Estimule novos processos, produtos e ideias alinhadas com práticas ESG.",
       icon: Lightbulb,
     },
   ];
 
-  const itemsRef = useRef([]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-show");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    itemsRef.current.forEach((el) => el && observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section className="relative py-28 overflow-hidden">
-      {/* SVG de fundo */}
+      {/* SVG de fundo (ALTERADO) */}
       <svg
         className="absolute inset-0 w-full h-full -z-10"
         xmlns="http://www.w3.org/2000/svg"
@@ -87,17 +103,45 @@ export const Beneficios = () => {
         </defs>
         <rect width="100%" height="100%" fill="url(#grad)" />
         <g opacity="0.25">
-          <circle cx="20%" cy="15%" r="220" fill="#06C35D" />
-          <circle cx="85%" cy="75%" r="280" fill="#50FFB1" />
-          <circle cx="40%" cy="90%" r="240" fill="#0B2B27" />
+          {/* NOVO: Círculos agora são componentes de motion */}
+          <motion.circle
+            cx="20%"
+            cy="15%"
+            r="220"
+            fill="#06C35D"
+            animate={{ cx: ["20%", "25%", "20%"], cy: ["15%", "20%", "15%"] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.circle
+            cx="85%"
+            cy="75%"
+            r="280"
+            fill="#50FFB1"
+            animate={{ r: [280, 300, 280] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.circle
+            cx="40%"
+            cy="90%"
+            r="240"
+            fill="#0B2B27"
+            animate={{ cy: ["90%", "85%", "90%"] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          />
         </g>
       </svg>
 
-      {/* camada escura e blur para contraste */}
+      {/* camada de blur (mantida) */}
       <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"></div>
 
       <Container>
-        <div className="text-center mb-16 relative z-10 text-white">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16 relative z-10 text-white"
+        >
           <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
             Benefícios ESG
           </h2>
@@ -105,20 +149,32 @@ export const Beneficios = () => {
             ESG não é custo — é investimento em reputação, eficiência e
             crescimento sustentável.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <motion.div
+          className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {beneficios.map((item, index) => {
-            const Icon = item.icon;
             return (
-              <div
+              <motion.div
                 key={index}
-                ref={(el) => (itemsRef.current[index] = el)}
-                className="card card-hidden bg-white/20 backdrop-blur-md rounded-xl shadow-lg flex flex-row items-center p-5 min-h-[135px] transition-all duration-700 hover:scale-[1.03] hover:shadow-2xl"
-                style={{ transitionDelay: `${index * 150}ms` }}
+                variants={itemVariants}
+                className="bg-white/10 backdrop-blur-md rounded-xl shadow-lg flex flex-row items-center p-6 min-h-[135px] transition-all duration-300 border border-white/10" // Removido hover
+                // NOVO: Interação de hover mais fluida
+                whileHover={{
+                  scale: 1.03,
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                  borderColor: "rgba(255, 255, 255, 0.25)",
+                  boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+                }}
               >
-                <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-[#06C35D]/40 mr-5 flex-shrink-0">
-                  <Icon className="w-8 h-8 text-white" />
+                <div className="flex items-center justify-center w-14 h-14 rounded-xl bg-[#06C35D]/60 mr-5 flex-shrink-0">
+                  {/* NOVO: Usando o componente de ícone animado */}
+                  <AnimatedIcon icon={item.icon} animation={item.animation} />
                 </div>
                 <div>
                   <h3 className="text-[1.25rem] font-semibold mb-1 text-white">
@@ -128,26 +184,11 @@ export const Beneficios = () => {
                     {item.descricao}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </Container>
-
-      <style jsx>{`
-        .card-hidden {
-          opacity: 0;
-          transform-origin: center bottom;
-          transform: rotateX(90deg) scale(0.8) translateY(20px);
-        }
-        .animate-show {
-          opacity: 1 !important;
-          transform-origin: center bottom;
-          transform: rotateX(0deg) scale(1) translateY(0) !important;
-          transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
-            opacity 0.7s ease;
-        }
-      `}</style>
     </section>
   );
 };

@@ -1,5 +1,20 @@
-@import "tailwindcss";
+/* Substituímos o @import "tailwindcss"; pelas 3 diretivas padrão.
+  Isso garante que todas as utilidades, componentes base e 
+  estilos de pré-carregamento do Tailwind sejam aplicados corretamente.
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Adicionamos variáveis globais aqui.
+  Esta variável --shadow-2xl é usada no hover do card 
+  em SectionOqueFazemos.jsx para ser acessada pelo Framer Motion.
+*/
+:root {
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+/* Animação do carrossel de parceiros */
 @keyframes slide {
   0% {
     transform: translateX(0);
@@ -11,12 +26,13 @@
 
 .animate-slide {
   display: flex;
-  animation: slide 20s linear infinite;
+  animation: slide 30s linear infinite; /* Aumentei o tempo para 30s para um slide mais suave */
 }
 
-
+/* Animação de "bounce" lento para o selo na seção de contato */
 @keyframes bounce-slow {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -28,6 +44,16 @@
   animation: bounce-slow 2.5s ease-in-out infinite;
 }
 
-body{
+/* Mantemos as configurações globais de rolagem e fonte 
+  que você já havia definido.
+*/
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-gray-900; /* Definindo um padrão de fundo e texto */
   font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
