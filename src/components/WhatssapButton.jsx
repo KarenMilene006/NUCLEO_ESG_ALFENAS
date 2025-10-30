@@ -6,12 +6,6 @@ export const WhatsAppButton = () => {
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center">
       {/* Balão de mensagem */}
-      {hover && (
-        <div className="relative mb-2 px-4 py-2 bg-[#0B2B27] text-white text-sm rounded-lg shadow-lg select-none">
-          Falar com agente
-          <div className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-t-8 border-t-[#0B2B27] border-r-8 border-r-transparent border-l-8 border-l-transparent"></div>
-        </div>
-      )}
 
       {/* Botão WhatsApp com escala separada da animação */}
       <a
