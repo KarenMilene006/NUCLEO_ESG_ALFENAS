@@ -1,10 +1,4 @@
-/* Substituímos o @import "tailwindcss"; pelas 3 diretivas padrão.
-  Isso garante que todas as utilidades, componentes base e 
-  estilos de pré-carregamento do Tailwind sejam aplicados corretamente.
-*/
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* Adicionamos variáveis globais aqui.
   Esta variável --shadow-2xl é usada no hover do card 
@@ -52,7 +46,6 @@ html {
 }
 
 body {
-  @apply bg-white text-gray-900; /* Definindo um padrão de fundo e texto */
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
