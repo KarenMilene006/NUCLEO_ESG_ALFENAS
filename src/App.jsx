@@ -10,7 +10,7 @@ import { SectionOqueFazemos } from "./components/SectionOqueFazemos"
 import { SectionPorQueESG } from "./components/SectionPorQueESG"
 import { SectionQuemSomos } from "./components/SectionQuemSomos"
 import { WhatsAppButton } from "./components/WhatssapButton"
-
+import { Incentivos } from "./components/Incentivos" 
 
 function App() {
 
@@ -19,6 +19,7 @@ function App() {
       <Header />
       <Hero />
       <Beneficios/>
+      <Incentivos />
       <SectionQuemSomos />
       <SectionOqueFazemos />
       <SectionPorQueESG />
