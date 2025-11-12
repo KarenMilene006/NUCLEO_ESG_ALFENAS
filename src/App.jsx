@@ -1,35 +1,21 @@
-import { BackToTopButton } from "./components/BackToTopButton"
-import { Beneficios } from "./components/Beneficios"
-import { Footer } from "./components/Footer"
-import { Header } from "./components/Header"
-import { Hero } from "./components/Hero"
-import { SectionComoFunciona } from "./components/SectionComoFunciona"
-import { SectionContato } from "./components/SectionContato"
-import { SectionEmpresasParceiros } from "./components/SectionEmpresasParceiros"
-import { SectionOqueFazemos } from "./components/SectionOqueFazemos"
-import { SectionPorQueESG } from "./components/SectionPorQueESG"
-import { SectionQuemSomos } from "./components/SectionQuemSomos"
-import { WhatsAppButton } from "./components/WhatssapButton"
-import { Incentivos } from "./components/Incentivos" 
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { Diagnostico } from "./pages/Diagnostico"
+import { Home } from "./pages/Home"
+import { Layout } from "./components/Layout"
 
 function App() {
-
   return (
-    <>
-      <Header />
-      <Hero />
-      <Beneficios/>
-      <Incentivos />
-      <SectionQuemSomos />
-      <SectionOqueFazemos />
-      <SectionPorQueESG />
-      <SectionEmpresasParceiros />
-      <SectionComoFunciona />
-      <SectionContato />
-      <WhatsAppButton />
-      <Footer/>
-      <BackToTopButton />
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Páginas que compartilham Header/Footer */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+
+        {/* Diagnóstico isolado, sem Header/Footer */}
+        <Route path="/diagnostico" element={<Diagnostico />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // NOVO: Variantes para a animação de texto em cascata
 const titleContainerVariants = {
@@ -82,9 +83,8 @@ export const Hero = () => {
         >
           {/* ALTERADO: Convertido para motion.a para mais interações */}
           <motion.a
-            href="https://wa.me/55SEUNUMERO"
-            target="_blank"
-            rel="noopener noreferrer"
+           
+            
             className="inline-block bg-[#50FFB1] text-[#0B2B27] font-semibold px-8 py-4 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-white transition-all duration-300"
             aria-label="Agende seu diagnóstico pelo WhatsApp"
             // NOVO: Animação de pulso contínuo e feedback de clique
@@ -105,7 +105,13 @@ export const Hero = () => {
             whileHover={{ scale: 1.05, brightness: 1.1 }}
             whileTap={{ scale: 0.98, brightness: 0.9 }}
           >
-            Agende seu diagnóstico
+            <Link
+              to="/diagnostico"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Agende seu diagnóstico
+            </Link>
           </motion.a>
         </motion.div>
       </div>

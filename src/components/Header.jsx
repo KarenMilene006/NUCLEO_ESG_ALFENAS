@@ -15,6 +15,7 @@ export const Header = () => {
     { id: "como-funciona", label: "Como Funciona" },
     { id: "por-que-esg", label: "Por que ESG?" },
     { id: "contato", label: "Contato" },
+    { id: "diagnóstico", label: "Diagnóstico" },
   ];
 
   // Efeito de scroll para mudar o fundo do header
